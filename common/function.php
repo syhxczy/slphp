@@ -57,7 +57,7 @@ function sende($adress,$content)
     $mail->Host = 'smtp.163.com';  // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
     $mail->Username = 'syh35kd@163.com';                 // SMTP username
-    $mail->Password = 'qazwsx';                           // SMTP password
+    $mail->Password = '';                           // SMTP password
 
     $mail->From = 'syh35kd@163.com';
     $mail->FromName = 'syh';
