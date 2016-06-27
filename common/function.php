@@ -9,13 +9,13 @@ function gojson($data)
 function sendx($to,$datas,$tempId)
 {
      // 初始化REST SDK
-     $accountSid= 'aaf98f89529afd5a01529bb2f93201c2';
+     $accountSid= '';
 
      //主帐号Token
-     $accountToken= 'f2d66d955f544726a22b788a6483368c';
+     $accountToken= '';
  
      //应用Id
-     $appId='8aaf0708554d8271015552a0583408f2';
+     $appId='';
  
      //请求地址，格式如下，不需要写https://
      $serverIP='sandboxapp.cloopen.com';
