@@ -6,7 +6,7 @@ class Base
     public function __construct()
     {
         // parent::__construct();
-        echo 'class base';
+        // echo 'class base';
     }
 }
 

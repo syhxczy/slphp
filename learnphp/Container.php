@@ -11,15 +11,35 @@ class Container
     protected $class;
     protected static $instance;
 
+    protected $bind = [
+        'app' => App::class
+    ];
+
+    public static function getInstance()
+    {
+        if (is_null(static::$instance)) {
+            static::$instance = new static;
+        }
+        return static::$instance;
+    }
+
+    public static function get($abstract, $vars=[])
+    {
+        return static::getInstance()->make($abstract, $vars);
+    }
+
     public function run($abstract, ...$vars)
     {
         return $this->invokeMethod($abstract, $vars);
     }
 
-    public function get($abstract, ...$vars)
+    public function make($abstract, ...$vars)
     {
-        $this->class = $this->invokeClass($abstract, $vars);
-        return $this;
+        if ( isset($this->bind[$abstract]) ) {
+            $abstract =  $this->bind[$abstract];
+        }
+        $object = $this->invokeClass($abstract, $vars);
+        return $object;
     }
 
     public function play($abstract, ...$vars)
@@ -31,11 +51,10 @@ class Container
         }
     }
 
-    public function invokeClass($classString, $classData)
+    public function invokeClass($classString, $classData=[])
     {
         try {
             $class            = new ReflectionClass($classString);
-            static::$instance = $class;
             $constructor      = $class->getConstructor();
             $classArgs        = $constructor ? $this->doReflection($constructor, $classData) : [];
             $result           = $class->newInstanceArgs($classArgs);
@@ -45,20 +64,20 @@ class Container
         return $result;
     }
 
-    public function invokeMethod($methodString, $methodData)
+    public function invokeMethod($method, $methodData=[])
     {
         try {
-            $class      = static::$instance;
-            $method     = $class->getmethod($methodString);
-            $methodArgs = $this->doReflection($method, $methodData);
-            $result     = $method->invokeArgs($this->class, $methodArgs);
+            $class      = is_object($method[0]) ? $method[0] : $this->invokeClass($method[0]);
+            $reflect    = new ReflectionMethod($class, $method[1]);
+            $methodArgs = $this->doReflection($reflect, $methodData);
+            $result     = $reflect->invokeArgs($class, $methodArgs);
         } catch (ReflectionException $e) {
-            $result = 'method not exists: ' . $methodString;
+            $result = 'method not exists';
         }
         return $result;
     }
 
-    public function invokeFunction($functionString, $functionData)
+    public function invokeFunction($functionString, $functionData=[])
     {
         try {
             $function     = new ReflectionFunction($functionString);

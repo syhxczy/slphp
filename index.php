@@ -9,19 +9,11 @@ function dd($data)
 
 ini_set('display_errors', 'on');
 error_reporting(E_ALL);
+define('START_TIME', microtime(true));
 define('ROOTPATH', __DIR__);
-define('learnphp',__DIR__ . DIRECTORY_SEPARATOR . 'learnphp' . DIRECTORY_SEPARATOR);
-include learnphp . 'Loader.php';
+define('ROUTEPATH', ROOTPATH . DIRECTORY_SEPARATOR . 'route');
+
+require ROOTPATH . DIRECTORY_SEPARATOR . 'learnphp' . DIRECTORY_SEPARATOR . 'Loader.php';
 
 Loader::register();
-
-$container = new Container();
-$tes = [1,2,3];
-$container->get('\app\index\controller\Index')->run('test', 1);
-// class Test
-// {
-//     public function hello()
-//     {
-//         return 'hello world';
-//     }
-// }
+Container::get('app')->qstart();

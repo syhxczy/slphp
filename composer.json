@@ -1,0 +1,17 @@
+{
+    "name": "slphp/syh",
+    "type": "project",
+    "authors": [
+        {
+            "name": "syh",
+            "email": "xiaoling02ban@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "app\\": "app",
+            "syh\\": "learnphp"
+        }
+    }
+}
