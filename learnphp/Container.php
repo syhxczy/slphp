@@ -12,7 +12,9 @@ class Container
     protected static $instance;
 
     protected $bind = [
-        'app' => App::class
+        'app'     => App::class,
+        'request' => Request::class,
+        'route'   => Route::class
     ];
 
     public static function getInstance()
@@ -28,12 +30,12 @@ class Container
         return static::getInstance()->make($abstract, $vars);
     }
 
-    public function run($abstract, ...$vars)
+    public function run($abstract, $vars)
     {
         return $this->invokeMethod($abstract, $vars);
     }
 
-    public function make($abstract, ...$vars)
+    public function make($abstract, $vars=[])
     {
         if ( isset($this->bind[$abstract]) ) {
             $abstract =  $this->bind[$abstract];
@@ -42,7 +44,7 @@ class Container
         return $object;
     }
 
-    public function play($abstract, ...$vars)
+    public function play($abstract, $vars=[])
     {
         if ($abstract instanceof \Closure) {
             return $this->invokeFunction($abstract, $vars);
@@ -109,6 +111,11 @@ class Container
             $i++;
         }
         return $arguments;
+    }
+
+    public function __get($name)
+    {
+        return $this->make($name);
     }
 
 }

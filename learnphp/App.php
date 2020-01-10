@@ -1,23 +1,30 @@
 <?php
 namespace syh;
-use Request;
 
 class App extends Container
 {
     public function qstart()
     {
-        $pathInfo = ltrim($_SERVER['REQUEST_URI'], '/');
-        $method   = $_SERVER['REQUEST_METHOD'];
+        $this->init();
+
+        $server = $this->request->server;
+        $pathInfo = ltrim($server['REQUEST_URI'], '/');
+        $method   = $server['REQUEST_METHOD'];
+        
         $this->routeInit();
-        $route = new \syh\Route;
-        $rules = $route->getRule($method);
-        if ( !isset($rules) ) die('error');
-        $rule = isset($rules[$pathInfo]) ? $rules[$pathInfo] : '';
-        if ( !$rule ) die('error');
-        $rule  = explode('\\', $rule);
-        $fun   = array_pop($rule);
-        $class = '\\app\\' . ucfirst($rule[0]) . '\\controller\\' . ucfirst($rule[1]);
-        return $this->run([$class, $fun]);
+        $dispath = $this->route->dispath($method, $pathInfo);
+        if (!$dispath) die('error');
+        
+        return $this->run($dispath['run'], $dispath['data']);
+    }
+
+    public function init()
+    {
+        $configPath = ROOTPATH . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR;
+        // 加载公共文件
+        if (is_file($configPath . 'common.php')) {
+            include_once $configPath . 'common.php';
+        }
     }
 
     public function routeInit()

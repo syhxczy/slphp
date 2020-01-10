@@ -3,7 +3,15 @@ namespace syh;
 
 class Loader
 {
+    /**
+     * 类名映射信息
+     */
     private static $classMaps = [];
+
+    /**
+     * 类库别名
+     */
+    protected static $classAlias = [];
 
     /**
      * PSR-4
@@ -46,6 +54,10 @@ class Loader
 
     public static function autoload($class)
     {
+        if ( isset(self::$classAlias[$class]) ) {
+            return class_alias(self::$classAlias[$class], $class);
+        }
+
         if ( isset(self::$classMaps[$class]) ) {
             $class = self::$classMaps[$class];
         }
@@ -78,5 +90,13 @@ class Loader
         return false;
     }
 
+    public static function addClassAlias($alias, $class = null)
+    {
+        if (is_array($alias)) {
+            self::$classAlias = array_merge(self::$classAlias, $alias);
+        } else {
+            self::$classAlias[$alias] = $class;
+        }
+    }
 }
 

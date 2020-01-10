@@ -3,9 +3,12 @@ namespace syh;
 
 class Request
 {
-    public function a()
+    public $server;
+
+    public function __construct()
     {
-        return 1;
+        $this->server = $_SERVER;
     }
+
 }
 
