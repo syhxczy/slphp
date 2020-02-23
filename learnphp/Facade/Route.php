@@ -1,8 +1,7 @@
 <?php
 namespace syh\Facade;
-use syh\Facade;
 
-class Route extends Facade
+class Route extends \syh\Facade
 {
     public static function getFacadeClass()
     {

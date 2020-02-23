@@ -12,9 +12,9 @@ require ROOTPATH . DIRECTORY_SEPARATOR . 'learnphp' . DIRECTORY_SEPARATOR . 'Loa
 Loader::register();
 
 Loader::addClassAlias([
-    'App'     => facade\App::class,
-    'Request' => facade\Request::class,
-    'Route'   => facade\Route::class
+    'App'     => Facade\App::class,
+    'Request' => Facade\Request::class,
+    'Route'   => Facade\Route::class
 ]);
 
 Container::get('app')->qstart();

@@ -24,6 +24,7 @@ class Route
             'run'  => [$class, $fun],
             'data' => $data
         ];
+        // C:\Users\syh\AppData\Roaming
     }
 
     public function get($url, $runMethod)
@@ -39,7 +40,9 @@ class Route
     public function replacepPregm($url)
     {
         $findArr = ['/', '<', '>', 'id', 'name'];
-        $replacepArr = ['\/', '(', ')', '\d+', '[\u4e00-\u9fa5_a-zA-Z]+'];
+        // \u4e00-\u9fa5
+        // magnet:?xt=urn:btih:2A42EB57A8639BE8D7B6DB66890F1426F534E717
+        $replacepArr = ['\/', '(', ')', '\d+', '[_a-zA-Z]+'];
         return str_replace($findArr, $replacepArr, $url);
     }
 
@@ -48,7 +51,6 @@ class Route
         foreach ($pregmArr as $val) {
             if ( preg_match('/'.$val['pregm'].'$/', $compareurl, $pregMatch) ) {
                 array_shift($pregMatch);
-                // dd($pregmArr);
                 $result = [
                     'run'    => $val['run'],
                     'parame' =>$pregMatch

@@ -13,7 +13,7 @@ class App extends Container
         
         $this->routeInit();
         $dispath = $this->route->dispath($method, $pathInfo);
-        if (!$dispath) die('error');
+        if (!$dispath) die('url异常');
         
         return $this->run($dispath['run'], $dispath['data']);
     }
