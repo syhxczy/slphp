@@ -25,6 +25,7 @@ class App extends Container
         if (is_file($configPath . 'common.php')) {
             include_once $configPath . 'common.php';
         }
+        new Err;
     }
 
     public function routeInit()

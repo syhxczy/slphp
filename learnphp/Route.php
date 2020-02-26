@@ -18,7 +18,7 @@ class Route
         if ( !$result ) return;
         $rule    = explode('\\', $result['run']);
         $fun     = array_pop($rule);
-        $class   = '\\app\\' . ucfirst($rule[0]) . '\\controller\\' . ucfirst($rule[1]);
+        $class   = '\\app\\' . $rule[0] . '\\controller\\' . ucfirst($rule[1]);
         $data    = $result['parame'];
         return [
             'run'  => [$class, $fun],
